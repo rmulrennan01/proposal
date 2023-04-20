@@ -1,6 +1,6 @@
 import React, { useEffect, useContext, useState, useRef } from 'react';
 //import './Login.css'
-import {loginWithEmailAndPassword} from '../FirebaseAuth.js';
+import {signIn, signUp} from '../FirebaseAuth.js';
 //import { UserContext } from './User_provider';
 import { Navigate } from 'react-router-dom'; //Navigate in lieu of Redirect
 import TextField from '@mui/material/TextField';
@@ -41,13 +41,30 @@ export default function Login() {
   const new_password = useRef(); 
   const new_password_2 = useRef();
 
-  const add_account = () =>{
-    try{
-      signUp(new_email.current.value, new_password.current.value)
-    } catch (e){
-      console.log('failure'); 
-    }
+  const add_account = async () =>{
+    signUp(new_email.current.value, new_password.current.value)
+    .then(() => {
+        console.log('success'); 
+    })
+    .catch((error) => {
+      alert(error);
+    });
   }
+
+  const [loginError, setLoginError] = useState(false); 
+  const login = async () =>{
+    signIn(email.current.value, pass.current.value)
+    .then(() => {
+        console.log('success'); 
+    })
+    .catch((error) => {
+      setLoginError(true);
+    });
+  }
+
+
+
+  
 
   //CREAT ACCOUNT FORM
   const create_account = () => {
@@ -95,6 +112,7 @@ export default function Login() {
           onChange={()=>console.log('password')}
           defaultValue={''}
           sx={{width:300}}
+          error={false}
       />
       <br></br><br></br>
 
@@ -107,16 +125,7 @@ export default function Login() {
 
 
 
-  const [error, set_error] = useState(false); 
-  const login = () =>{
-    try{
-      loginWithEmailAndPassword(email.current.value, pass.current.value)
-    }
-    catch(error){
-      set_error(true);
-      console.log('issues')
-    }
-  }
+ 
 
 
 
@@ -139,7 +148,7 @@ export default function Login() {
           onChange={()=>console.log('user')}
           defaultValue={''}
           sx={{width:300}}
-          error={error}
+          error={false}
       />
       <br></br><br></br>
       <TextField 
@@ -154,6 +163,7 @@ export default function Login() {
       />
       <br></br><br></br>
       <div style={{width:300}}>
+        {loginError ? <>You have entered an invalid username or password</> : null}
         <Button sx={{width:300}} variant='contained' onClick={()=>login()}>Login</Button>
         <br></br>
         <Button sx={{position:'relative', alignItems:'center', ml:'60px'}} vairant='contained' > Forgot Password? </Button> 
