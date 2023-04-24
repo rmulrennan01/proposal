@@ -2,7 +2,7 @@ import React, { useEffect, useContext, useState, useRef } from 'react';
 //import './Login.css'
 import {signIn, signUp} from '../FirebaseAuth.js';
 //import { UserContext } from './User_provider';
-import { Navigate } from 'react-router-dom'; //Navigate in lieu of Redirect
+import { useNavigate } from 'react-router-dom'; //Navigate in lieu of Redirect
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import Paper from '@mui/material/Paper';
@@ -17,29 +17,27 @@ import Typography from '@mui/material/Typography';
 import GoogleIcon from '@mui/icons-material/Google';
 import { fontSize } from '@mui/system';
 
+import { useSelector, useDispatch } from 'react-redux'
+import {setUser, setUid} from '../Store/userSlice';
+
 
 export default function Login() {
-  //const user = useContext(UserContext)
 
-  const [redirect, setredirect] = useState(null);
-  const [new_user, set_new_user] = useState(false); 
   const [panel, set_panel] = useState(1); 
-  const [login_fail, set_login_fail] = useState(false); 
-
-/*
-  useEffect(() => {
-    if (user) {
-      setredirect('/dashboard')
-    }
-  }, [user])
-  if (redirect) {
-    <Navigate to={redirect}/>
-  }
-*/
-
+  const user = useSelector((state) =>state.user.user);
+  const uid = useSelector ((state) =>state.user.uid); 
+  const dispatch = useDispatch();
   const new_email = useRef(); 
   const new_password = useRef(); 
   const new_password_2 = useRef();
+  const navigate = useNavigate(); 
+
+  useEffect (() =>{
+    if(uid !=null){
+      navigate('/home'); 
+    }
+
+  }, [uid])
 
   const add_account = async () =>{
     signUp(new_email.current.value, new_password.current.value)
@@ -52,10 +50,13 @@ export default function Login() {
   }
 
   const [loginError, setLoginError] = useState(false); 
+
+
   const login = async () =>{
     signIn(email.current.value, pass.current.value)
-    .then(() => {
-        console.log('success'); 
+    .then((usr) => {
+        //console.log(usr.uid); 
+        dispatch(setUid(usr.uid));
     })
     .catch((error) => {
       setLoginError(true);
@@ -135,6 +136,8 @@ export default function Login() {
 
   const email = useRef(); 
   const pass = useRef();
+
+
   //LOGIN FORM
   const login_account = () => {
     return(
@@ -145,7 +148,7 @@ export default function Login() {
           inputRef={email} 
           id="outlined-required" 
           label="Email" 
-          onChange={()=>console.log('user')}
+          onChange={()=> loginError ? setLoginError(false) : null}
           defaultValue={''}
           sx={{width:300}}
           error={false}
@@ -157,7 +160,7 @@ export default function Login() {
           id="outlined-required" 
           label="Password" 
           type='password'
-          onChange={()=>console.log('password')}
+          onChange={()=> loginError ? setLoginError(false) : null}
           defaultValue={''}
           sx={{width:300}}
       />
@@ -211,16 +214,16 @@ export default function Login() {
 
             }}
             >
-            Appster
+              Proposium
+
       
           </Typography>
           <br></br>
           No more spreadsheets. 
           <br></br> <br></br>
-          No more missed application dates.
+          Build your estimates.
           <br></br>  <br></br>
-          Your contracts all in one place.
-
+          Write your proposals. 
           
 
 

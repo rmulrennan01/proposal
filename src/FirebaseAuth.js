@@ -34,6 +34,20 @@ const signIn = async (email, password)=> {
 }
 
 
+const signOut = async (email, password)=> {
+  try {
+    const userCredential = await fireAuth.signOut(auth)
+    // Additional code to handle successful account creation
+    //return userCredential.user;
+  } catch (error) {
+    // Additional code to handle error
+    throw error;
+  }
+
+
+}
+
+
 
 
 

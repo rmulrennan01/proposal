@@ -4,7 +4,7 @@ import {setLogin} from '../Store/userSlice';
 
 function Home() {
 
-    const login = useSelector((state) =>state.user.login);
+    const login = useSelector((state) =>state.user.uid);
     //    const dispatch = useDispatch();
     //    dispatch(toggleNonFocusReload());
 
