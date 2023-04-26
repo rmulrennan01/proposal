@@ -45,7 +45,9 @@ function Navbar() {
 
   const listItems = [
     { text: 'Proposals' , function: null},
+    { text: 'Invoices', function: null},
     { text: 'Customers',  function: null},
+    {text: 'Cost Items', function :null},
     { text: 'Settings' , function: null},
     { text: 'Logout', function: ()=>signOut()},
   ];

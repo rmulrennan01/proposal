@@ -11,6 +11,8 @@ import Login from './Login/Login.js';
 import Home from './Home/Home.js'; 
 
 
+import ProtectedRoute from './ProtectedRoute.js'; 
+
 
 
 function App() {
@@ -20,8 +22,8 @@ function App() {
         <Navbar />
         <BrowserRouter> 
           <Routes>
-            <Route path="/" element={<Login />} />
-            <Route path="/home" element={<Home />} />
+            <Route path="/login" element={<Login />} />
+            <Route path='/home' element={<ProtectedRoute><Home/></ProtectedRoute>} />
           </Routes>
 
         </BrowserRouter>
