@@ -1,0 +1,23 @@
+.tableRow:hover{
+    background-color: lightgrey;
+
+}
+
+
+.tableHeader{
+    font-weight: bold;
+}
+
+.tableHeader__text{
+    font-weight: bold; 
+}
+
+.tableFooter{
+    font-weight: bold; 
+    color: blue
+}
+
+.tableFooter__text{
+    font-weight: bold; 
+}
+

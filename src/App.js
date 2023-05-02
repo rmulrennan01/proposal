@@ -22,6 +22,7 @@ function App() {
         <Navbar />
         <BrowserRouter> 
           <Routes>
+            <Route path="/" element={<Login />} />
             <Route path="/login" element={<Login />} />
             <Route path='/home' element={<ProtectedRoute><Home/></ProtectedRoute>} />
           </Routes>
